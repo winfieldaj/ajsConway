@@ -95,13 +95,12 @@ gulp.task('html', function() {
     })))
     .pipe(cssFilter)
     .pipe(minifyCss())
-    .pipe(gulpif(isDev, sourcemaps.write('./')))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist'))
     .pipe(cssFilter.restore)
     .pipe(jsFilter)
     .pipe(uglify())
-    .pipe(gulpif(!isDev, stripDebug()))
-    .pipe(gulpif(isDev, sourcemaps.write('./')))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('dist'))
     .pipe(jsFilter.restore)
     .pipe(notHtmlFilter)
@@ -134,7 +133,7 @@ gulp.task('styles:build', function() {
 });
 
 gulp.task('scripts:build', function(cb) {
-  return bundleScripts(isDev, false);
+  return bundleScripts(true, false);
 });
 
 gulp.task('serve', function(cb) {
@@ -146,6 +145,15 @@ gulp.task('test:tdd', function(cb) {
     configFile: __dirname + '/test/karma.conf.js',
     singleRun: false,
     autoWatch: true,
+    reporters: ['dots'],
+  }, cb);
+});
+
+gulp.task('test', function(cb) {
+  karma.start({
+    configFile: __dirname + '/test/karma.conf.js',
+    singleRun: true,
+    autoWatch: false,
     reporters: ['dots'],
   }, cb);
 });
