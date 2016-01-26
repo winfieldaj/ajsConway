@@ -57,7 +57,7 @@ function gameOfLifeDirective($interval) {
                             stop = undefined;
                             scope.isPlaying = false;
                         }
-                    }, 500);
+                    }, 100);
                 }
             });
 
