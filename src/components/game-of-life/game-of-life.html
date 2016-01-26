@@ -1,0 +1,30 @@
+<div>
+    To Play: Choose your Game Size, select number of generations, click the cells you wish to be alive, then select Start.
+    <br>
+    <strong>Note:</strong> Updating Game Size will cause loss of cell selection.
+</div>
+<form name="gameForm">
+    <div>
+        Game Size: <input type="number" ng-disabled="isPlaying" ng-model="width" min="1" required name="width"> X
+            <input type="number" ng-disabled="isPlaying" ng-model="height" min="1" required name="height">
+    </div>
+    <div>
+        Generations: <input type="number" ng-disabled="isPlaying" ng-model="generation" min="1" required name="generation">
+    </div>
+    <div>
+        <input type="button"
+            ng-disabled="!gameForm.$valid" ng-click="startGame()" value="Start"/>
+    </div>
+    <div class="error" ng-hide="gameForm.$valid">
+        <h1>FIX YOUR INPUT.</h1>
+        <div>Tip: All Fields must be numbers, and must be greater than 0.</div>
+    </div>
+</form>
+
+<div class="table" ng-show="gameForm.$valid">
+    <div ng-repeat="yIndex in getCount('y', height)" class="table-row">
+        <div ng-repeat="xIndex in getCount('x', width)" ng-click="isPlaying || swapCellAt(xIndex, yIndex)"
+           ng-class="['table-cell', {'alive':cellIsAlive(xIndex, yIndex)}]">
+        </div>
+    </div>
+</div>
